@@ -17,9 +17,6 @@ finish-args:
   - --share=network
   - --device=dri
 
-  # Static access until electron gets fixed
-  - --filesystem=xdg-download
-  - --filesystem=xdg-documents
 
 build-options:
   append-path: /usr/lib/sdk/node20/bin
@@ -54,8 +51,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/author-more/penpot-desktop.git
-        tag: v0.9.0
-        commit: 4372e3d69be68342bc74a84bc34b7cdd356fa54b
+        # tag: v0.10.0
+        commit: c2978db697e1ccf8546daeb7a68702efbed01869
         dest: main
         # x-checker-data:
         #   type: git
