@@ -44,7 +44,8 @@ modules:
       # Install app wrapper
       - install -Dm755 -t /app/bin/ ../run.sh
       - install -Dm644 build/flatpak/icons/${FLATPAK_ID}.svg -t /app/share/icons/hicolor/scalable/apps
-      - install -Dm644 build/flatpak/icons/${FLATPAK_ID}.application-x-penpot.svg -t /app/share/icons/hicolor/scalable/mimetypes
+      - install -Dm644 build/flatpak/icons/${FLATPAK_ID}.application-x-penpot.svg
+        -t /app/share/icons/hicolor/scalable/mimetypes
       - install -Dm644 build/flatpak/${FLATPAK_ID}.desktop /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 build/flatpak/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
       - install -Dm644 build/flatpak/$FLATPAK_ID-mime.xml -t /app/share/mime/packages/
@@ -54,12 +55,13 @@ modules:
         tag: v0.12.0
         commit: a3d55bce3447e655e88f6dc0bdf6a8a62630a19a
         dest: main
-        # x-checker-data:
-        #   type: git
-        #   tag-pattern: ^v([\d.]+)$
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
       - generated-sources.json
       # Wrapper to launch the app
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper.sh /app/main/penpot-desktop --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations "$@"
+          - zypak-wrapper.sh /app/main/penpot-desktop --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations
+            "$@"
