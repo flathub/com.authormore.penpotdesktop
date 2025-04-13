@@ -1,0 +1,70 @@
+name: Check for updates
+on:
+  schedule: # for scheduling to work this file must be in the default branch
+    - cron: "0 */6 * * *" # run every 6 hours
+  workflow_dispatch: # or manually dispatch under GitHub's "Actions" tab
+
+env:
+  FLATPAK_ID: com.authormore.penpotdesktop
+
+jobs:
+  flatpak-external-data-checker:
+    name: "Check update"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Check for release
+        uses: docker://ghcr.io/flathub/flatpak-external-data-checker:latest
+        with:
+          args: --edit-only ${{ env.FLATPAK_ID }}.yml
+
+      - name: Check if updated
+        id: is-updated
+        run: |
+          git status -s -uno
+          git diff --quiet || echo "UPDATED=true" >> $GITHUB_OUTPUT
+
+      - name: Setup tools
+        if: steps.is-updated.outputs.UPDATED
+        run: |
+          sudo apt-get install -y flatpak-builder pipx
+          gh repo clone flatpak/flatpak-builder-tools
+          (cd flatpak-builder-tools/node && pipx install .)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get upstream
+        if: steps.is-updated.outputs.UPDATED
+        uses: actions/checkout@v4
+        with:
+          repository: author-more/penpot-desktop
+          path: _upstream # Store in $GITHUB_WORKSPACE/_upstream
+
+      - name: Generate resources
+        if: steps.is-updated.outputs.UPDATED
+        run: |
+          cd $GITHUB_WORKSPACE/_upstream
+          flatpak-node-generator npm ./package-lock.json -o $GITHUB_WORKSPACE/generated-sources.json
+
+      - name: Cleanup before PR
+        # will include all the changes on the automated PR
+        run: |
+          rm -rf $GITHUB_WORKSPACE/_upstream
+          git restore ${FLATPAK_ID}.yml
+
+      - uses: docker://ghcr.io/flathub/flatpak-external-data-checker:latest
+        name: Recheck and open PR
+        env:
+          GIT_AUTHOR_NAME: Flatpak External Data Checker
+          GIT_COMMITTER_NAME: Flatpak External Data Checker
+          # email sets "github-actions[bot]" as commit author, see https://github.com/orgs/community/discussions/26560#discussioncomment-3252340
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: --update --never-fork ${{ env.FLATPAK_ID }}.yml
