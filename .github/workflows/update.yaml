@@ -52,13 +52,15 @@ jobs:
           flatpak-node-generator npm ./package-lock.json -o $GITHUB_WORKSPACE/generated-sources.json
 
       - name: Cleanup before PR
-        # will include all the changes on the automated PR
+        # will include all the changes in the automated PR
+        if: steps.is-updated.outputs.UPDATED
         run: |
           rm -rf $GITHUB_WORKSPACE/_upstream
           git restore ${FLATPAK_ID}.yml
 
       - uses: docker://ghcr.io/flathub/flatpak-external-data-checker:latest
         name: Recheck and open PR
+        if: steps.is-updated.outputs.UPDATED
         env:
           GIT_AUTHOR_NAME: Flatpak External Data Checker
           GIT_COMMITTER_NAME: Flatpak External Data Checker
