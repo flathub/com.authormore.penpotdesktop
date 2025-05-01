@@ -57,7 +57,7 @@ modules:
         dest: main
         x-checker-data:
           type: git
-          tag-pattern: ^v([\d.]+)$
+          tag-pattern: ^v?([\d.]+)$
       - generated-sources.json
       # Wrapper to launch the app
       - type: script
