@@ -7338,7 +7338,7 @@
     {
         "type": "script",
         "commands": [
-            "$FLATPAK_BUILDER_BUILDDIR/flatpak-node/patch.sh"
+            "\"$FLATPAK_BUILDER_BUILDDIR\"/flatpak-node/patch.sh"
         ],
         "dest-filename": "patch-all.sh",
         "dest": "flatpak-node"
@@ -7379,7 +7379,7 @@
     {
         "type": "shell",
         "commands": [
-            "FLATPAK_BUILDER_BUILDDIR=$PWD flatpak-node/patch-all.sh",
+            "FLATPAK_BUILDER_BUILDDIR=\"$PWD\" flatpak-node/patch-all.sh",
             "bash flatpak-node/setup_sdk_node_headers.sh"
         ]
     },
