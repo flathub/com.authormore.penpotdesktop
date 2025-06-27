@@ -33,7 +33,7 @@ jobs:
         if: steps.is-updated.outputs.UPDATED
         run: |
           sudo apt-get install -y flatpak-builder pipx
-          pipx install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=node
+          pipx install --force git+https://github.com/flatpak/flatpak-builder-tools.git@refs/pull/382/head#subdirectory=node
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
