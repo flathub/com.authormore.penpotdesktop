@@ -32,6 +32,7 @@ jobs:
       - name: Setup tools
         if: steps.is-updated.outputs.UPDATED
         run: |
+          sudo apt-get update
           sudo apt-get install -y flatpak-builder pipx
           pipx install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=node
         env:
@@ -48,13 +49,13 @@ jobs:
         if: steps.is-updated.outputs.UPDATED
         run: |
           cd $GITHUB_WORKSPACE/_upstream
-          flatpak-node-generator npm ./package-lock.json -o $GITHUB_WORKSPACE/generated-sources.json
+          flatpak-node-generator npm ./package-lock.json -o ../generated-sources.json
 
       - name: Cleanup before PR
         # will include all the changes in the automated PR
         if: steps.is-updated.outputs.UPDATED
         run: |
-          rm -rf $GITHUB_WORKSPACE/_upstream
+          [ -d "$GITHUB_WORKSPACE/_upstream" ] && rm -rf "$GITHUB_WORKSPACE/_upstream"
           git restore ${FLATPAK_ID}.yml
 
       - uses: docker://ghcr.io/flathub/flatpak-external-data-checker:latest
