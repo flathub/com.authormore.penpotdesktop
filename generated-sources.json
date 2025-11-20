@@ -24,7 +24,7 @@
         "type": "archive",
         "url": "https://playwright.azureedge.net/builds/firefox/1495/firefox-ubuntu-22.04.zip",
         "strip-components": 0,
-        "sha256": "303ea603109bb551509dccdc22af0806834a3d2969e763f1ca5e51c75d13e3d4",
+        "sha256": "12986a62f4f326b80a0a5e1195737939382e1785392f927aaacd450f90d801d1",
         "dest": "flatpak-node/cache/ms-playwright/firefox-1495"
     },
     {
