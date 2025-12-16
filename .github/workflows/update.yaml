@@ -34,7 +34,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y flatpak-builder pipx
-          pipx install --force git+https://github.com/flatpak/flatpak-builder-tools.git@refs/pull/485/head#subdirectory=node
+          pipx install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=node
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
