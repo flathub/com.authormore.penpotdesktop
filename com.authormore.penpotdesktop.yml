@@ -1,11 +1,11 @@
 app-id: com.authormore.penpotdesktop
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
-base-version: '24.08'
+base-version: '25.08'
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node20
+  - org.freedesktop.Sdk.Extension.node24
 command: run.sh
 separate-locales: false
 finish-args:
@@ -19,7 +19,7 @@ finish-args:
 
 
 build-options:
-  append-path: /usr/lib/sdk/node20/bin
+  append-path: /usr/lib/sdk/node24/bin
   env:
     NPM_CONFIG_LOGLEVEL: info
 modules:
@@ -52,8 +52,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/author-more/penpot-desktop.git
-        tag: v0.23.0
-        commit: fc529bc8c4496793f033ff04c885ac4e7b0c5430
+        tag: v0.23.1
+        commit: c19b818bfcf2f73350105f9a15749facf0d4ab5d
         dest: main
         x-checker-data:
           type: git
