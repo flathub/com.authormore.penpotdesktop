@@ -52,8 +52,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/author-more/penpot-desktop.git
-        tag: v1.0.0
-        commit: ea5a12dfd032a4aae46f70f4968e6d0d2e159e94
+        tag: v1.0.1
+        commit: aaab79ef129f53d878533d69009db543755f5aaa
         dest: main
         x-checker-data:
           type: git
